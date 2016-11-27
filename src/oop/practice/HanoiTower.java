@@ -1,43 +1,44 @@
 package oop.practice;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Iterator;
 
 /**
  * Created by Roman on 20.11.2016.
  */
 public class HanoiTower {
-    private static Stack<Integer> pole1 = new Stack<Integer>(); // source
-    private static Stack<Integer> pole2 = new Stack<Integer>(); //aux
-    private static Stack<Integer> pole3 = new Stack<Integer>(); //destination
+    private static ArrayDeque<Integer> pole1 = new ArrayDeque<Integer>(); // source
+    private static ArrayDeque<Integer> pole2 = new ArrayDeque<Integer>(); //aux
+    private static ArrayDeque<Integer> pole3 = new ArrayDeque<Integer>(); //destination
+
+    private static ArrayDeque<ActionMove> moves = new ArrayDeque<ActionMove>();
 
     public void populate(Integer inValue){
            int maxSize = inValue;
         for(int i=0 ; i<inValue ; i++){
-            pole1.push(maxSize--);
+            pole1.addFirst(maxSize--);
         }
     }
 
-    private void DisplayPole(Stack<Integer> inStack){
+    private void DisplayPole(ArrayDeque<Integer> inDeque){
         System.out.flush();
-        int inStackSize = inStack.size();
-        for(int i=inStackSize-1 ; i>=0 ; i--){
+        int inDequeSize = inDeque.size();
 
-            int diskSize = inStack.get(i);
-            for(int m=0 ; m<diskSize ; m++ ){
+        if(inDequeSize!=0) {
+            Object[] tempArray =  inDeque.toArray();
+
+            for (int i = 0; i < tempArray.length; i++) {
+                // System.out.println(tempArray[i]);
+                //Object diskSize = tempArray[i];
+                for(int m=0 ; m<i+1 ; m++ ){
                 System.out.print("*");
             }
             System.out.println();
+            }
         }
 
     }
 
-    private static Stack<Integer> formNewStack(Stack<Integer> source){
-        Stack<Integer> resultStack = new Stack<Integer>();
-        int i=1;
-        while(i<source.size()){
-            resultStack.push(source.);
-        }
-    }
 
     public void showState(){
         System.out.println("================ State of the towers =====================");
@@ -55,62 +56,31 @@ public class HanoiTower {
 
     public void moveDisks(){
 
-        md( pole1.size() , pole1 , pole2 , pole3 );
+        md( pole1.size() , PegName.source, PegName.aux , PegName.dest );
 
     }
 
-    public void md(int numDisks , Stack<Integer> source, Stack<Integer> aux, Stack<Integer> dest){
-        System.out.println("call md(" + numDisks + " , " + source.toString() + " , " + aux.toString() + " , " +  dest.toString() + ")" );
+    public void md(int numDisks , PegName source,  PegName aux,  PegName dest){
+
         if(numDisks==0) return;
 
-        if(numDisks>1) {
-
-            Stack<Integer> newStack = new Stack<Integer>();
-            newStack = formNewStack(source); // put all disks to a new stack except for the largest bottom disk
-            //System.out.println("we call md(" + (numDisks - 1) + " , aux , source , end ");
-            md(numDisks - 1, source, dest, aux);
-        }
+        System.out.println("call md(" + numDisks + " , " + source.toString() + " , " + aux.toString() + " , " +  dest.toString() + ")" );
 
 
-        //md(1 , source , aux , dest);
+
         if(numDisks==1){
-
-            String sourceString = source.toString();
-            Integer temp = source.pop();
-            System.out.println(" we move " + temp + " disk from " + sourceString + " to " + dest.toString() );
-            dest.push(temp);
-            showState();
-
+            moves.addFirst(new ActionMove( source , dest ));
+            System.out.println(moves.getFirst().ToString() );
         }
-//        if(numDisks==2){
-//
-//            String sourceString = source.toString();
-//            int temp = source.pop();
-//            System.out.println(" we move " + temp + " disk from " + sourceString + " to " + aux.toString() );
-//            aux.push(temp);
-//            showState();
-//
-//            sourceString = source.toString();
-//            temp = source.pop();
-//            System.out.println(" we move " + temp + " disk from " + sourceString + " to " + dest.toString() );
-//            dest.push(temp);
-//            showState();
-//
-//            String auxString = aux.toString();
-//            temp = aux.pop();
-//            System.out.println(" we move " + temp + " disk from " + auxString + " to " + dest.toString() );
-//            dest.push(temp);
-//            showState();
-//
-//        }
+        else {
 
+            md(numDisks - 1, source, dest, aux);
 
-        if(numDisks>1) {
+            md(1 ,source , aux , dest);
+
             //System.out.println("we call md(" + (numDisks - 1) + " , aux , source , end ");
             md(numDisks - 1, aux, source, dest);
         }
-
-
 
     }
 

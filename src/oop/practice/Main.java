@@ -6,7 +6,7 @@ public class Main {
 
         HanoiTower myTower = new HanoiTower();
 
-        final int numberOfDisks = 3;
+        final int numberOfDisks = 18;
 
         myTower.populate(numberOfDisks);
 
@@ -15,7 +15,7 @@ public class Main {
 
         myTower.moveDisks();
 
-        System.out.println("_FINAL_SHOW_STATE_");
+        //System.out.println("_FINAL_SHOW_STATE_");
         myTower.showState();
 
 
