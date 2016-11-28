@@ -6,7 +6,7 @@ public class Main {
 
         HanoiTower myTower = new HanoiTower();
 
-        final int numberOfDisks = 18;
+        final int numberOfDisks = 6;
 
         myTower.populate(numberOfDisks);
 
